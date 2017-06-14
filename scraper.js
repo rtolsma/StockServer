@@ -1,20 +1,20 @@
 
 
-var https=require("http")
-
+var https=require("http");
+var parser=require("./parser");
 exports.getData= function(period, days, ticker) {
 
-	var urlpath=getGooglePath(period,days,ticker)
+	var urlpath=getGooglePath(period,days,ticker);
 	
 	var options= {
 		host: "www.google.com",
 		port: 80,
 		path: urlpath,
 		method: 'GET'
-	}
+	};
 
 	requestTicker(options);
-}
+};
 
 function requestTicker(options) {
 
@@ -24,8 +24,8 @@ function requestTicker(options) {
 	var requestCallback= function(res) {
 		
 		//Log STATUS and HEADERS
-		console.log('STATUS: ' + res.statusCode);
-  		console.log('HEADERS: ' + JSON.stringify(res.headers));
+		//console.log('STATUS: ' + res.statusCode);
+  		//console.log('HEADERS: ' + JSON.stringify(res.headers));
   		res.setEncoding('utf8');
 
   		//Event listener while data is being buffered
@@ -36,16 +36,16 @@ function requestTicker(options) {
   		res.on('end', function() {
 
   			//Now we have all the ticker data pass it into the parser now
-  			//parseData(data)
+  			parser.parseData(data);
 
   		});
 
-	}); //End of req variable
+	};
 
 	
 
 	//HTTP request Google URL
-	var req= https.request(options, callback);
+	var req= https.request(options, requestCallback);
 
 	//Event listener for request error	
 	req.on('error', function(e) {
@@ -67,7 +67,7 @@ return "/finance/getprices?i="
 	+ticker;
 } 
 
-/*TEST
-getData(60, 10, "IBM");
+/*TEST*/
+exports.getData(60, 10, "IBM");
 console.log("Done");
-*/
+

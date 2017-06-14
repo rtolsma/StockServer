@@ -14,7 +14,7 @@ The data will be stored actively in a database/CSV/JSON file managed by ticker s
 
 The scraper/parser/database will be constantly updating over a specified interval, or on an per callback basis.
 
-Questions: For the database, what is the end goal? Are we trying to create a complete stock market database for every symbol and slowly build it up over time using recent data? If that's the case we might want a separate program for building our own databases. Otherwise, databases will only update when a given ticker is requested
+MongoDB for the database storage. Databases will have a URI based off of ticker symbol. JSON objects for each day will be stored in the DB. The full day JSON objects will primarily hold a sorted array by time of all data available for intraday pricings.
 
  
 ### Controller
