@@ -14,7 +14,12 @@ The data will be stored actively in a database/CSV/JSON file managed by ticker s
 
 The scraper/parser/database will be constantly updating over a specified interval, or on an per callback basis.
 
-MongoDB for the database storage. Databases will have a URI based off of ticker symbol. JSON objects for each day will be stored in the DB. The full day JSON objects will primarily hold a sorted array by time of all data available for intraday pricings.
+MongoDB for the database storage. Databases will have a URI based off of ticker symbol. JSON objects for each day will be stored in the DB. The full day JSON objects will primarily hold a sorted array by time of all data available for intraday pricings. 
+
+URI will be $ticker+$interval... pattern
+
+
+In addition, have a separate helper program which every 10 minutes updates all of our databases for a preset list of indices.
 
  
 ### Controller

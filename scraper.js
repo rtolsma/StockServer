@@ -63,11 +63,11 @@ return "/finance/getprices?i="
 	+period+
 	"&p="
 	+days+
-	"d&f=d,o,h,l,c,v&df=cpct&q="
+	"y&f=d,o,h,l,c,v&df=cpct&q="
 	+ticker;
 } 
 
 /*TEST*/
-exports.getData(60, 10, "IBM");
+exports.getData(60, 1, "IBM");
 console.log("Done");
 
