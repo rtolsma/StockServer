@@ -26,6 +26,8 @@ In addition, have a separate helper program which every 10 minutes updates all o
 
 The controller will consist of a nodejs server reacting to user input and updating the display with new data from the databases. 
 
+Database helper class. Retrieves all data from a database or queries/downloads data and creates the database given a ticker+interval. 
+
 ### View
 
 An interactive candlestick chart. Should have interactive features to have user input on dates, interval, and ticker symbol.

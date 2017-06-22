@@ -1,0 +1,22 @@
+{
+  "name": "Ziggurat-Internship",
+  "version": "1.0.0",
+  "description": "Stock Chart Webapp",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rtolsma/Ziggurat-Internship"
+  },
+  "author": "Ryan Tolsma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rtolsma/Ziggurat-Internship/issues"
+  },
+  "homepage": "https://github.com/rtolsma/Ziggurat-Internship",
+  "dependencies": {
+    "mongo": "^0.1.0"
+  }
+}

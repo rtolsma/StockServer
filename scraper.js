@@ -2,7 +2,7 @@
 
 var https=require("http");
 var parser=require("./parser");
-exports.getData= function(period, days, ticker) {
+exports.getData= function(period, days, ticker, callback) {
 
 	var urlpath=getGooglePath(period,days,ticker);
 	
@@ -13,13 +13,13 @@ exports.getData= function(period, days, ticker) {
 		method: 'GET'
 	};
 
-	requestTicker(options);
+	requestTicker(options, callback);
 };
 
-function requestTicker(options) {
+function requestTicker(options, callback) {
 
 	var data="";
-
+	var dayCandles=[];
 
 	var requestCallback= function(res) {
 		
@@ -36,10 +36,10 @@ function requestTicker(options) {
   		res.on('end', function() {
 
   			//Now we have all the ticker data pass it into the parser now
-  			parser.parseData(data);
+  			dayCandles=parser.parseData(data);
+  			callback(dayCandles);
 
   		});
-
 	};
 
 	
@@ -67,7 +67,8 @@ return "/finance/getprices?i="
 	+ticker;
 } 
 
-/*TEST*/
+/*
+TEST
 exports.getData(60, 1, "IBM");
 console.log("Done");
-
+*/

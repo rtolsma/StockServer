@@ -1,24 +1,36 @@
-//This file takes in the string data from the scraper and will convert
-// it into CSV/JSON/Database idk yet
-
-var candle=require("./candle");
+//This file takes in the string data from the scraper and will convert it into CSV/JSON/Database idk yet
+var candle=require("./candle")
+var daycandle=require("./daycandle")
+var lastTime=0;
 exports.parseData=function(body) {
-
 	//probably poor memory management
 	var lines= body.split("\n").slice(7);
 
-	//For every index/line replace with candlestick object
-	lines.map(function(line) {
-
+	var candles=[];
+	//For every line, parse data
+	lines.forEach(function(line) {
+		//console.log(line);
 		var values= line.split(',');
-		var time= +values[0]; //watch out for a....
+		var time=0;
+
+		if(values[0].startsWith("a")) {
+			time=+values[0].split("a")[1];
+			lastTime=time;
+		} else {
+			time= (+values[0])*6000+lastTime;
+		}
 		var close= +values[1];
 		var high=+values[2];
 		var low=+values[3];
 		var open=+values[4];
 		var volume=+values[5];
-        return new candle.Candlestick(time,close,high, low, open, volume);
+
+		var candleIndicator= 
+				new candle.Candlestick(time, close, high, low, open, volume);
+
+		candles.push(candleIndicator);
 
 	});
-    console.log(lines);
-};
+	//console.log(candles);
+	return new daycandle.DayCandle(candles);
+}
