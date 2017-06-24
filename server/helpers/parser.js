@@ -31,7 +31,7 @@ exports.parseData=function(body) {
 
 	});
 	//console.log(candles);
-	console.log("Lasttime:",lastTime)
+	//console.log("Lasttime:",lastTime)
 	//haxy way cuz last line ends on new line which gets processed
 	candles.pop(); 
 	return candles;

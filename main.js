@@ -18,11 +18,11 @@ var run= function(data) {
 	DBMongo.init();
 	//DBMongo.makeTable("FB");
 	//for ttesting
-	data=data.slice(0,1);
-	DBMongo.insertDays(data, "FB");
+	//data=data.slice(0,1);
+	//DBMongo.insertDays(data, "FB");
 	//console.log(data)
-	//console.log(  DBMongo.getDayRange(0, 1499000000, "FB"));
-
+	data=DBMongo.getDayRange(0, 1500040000, "FB");
+	console.log(data)
 }
 
  function displayDBContents(table) {
@@ -38,7 +38,7 @@ var run= function(data) {
 
 
 
-//scraper.getData(60,1 ,"FB", run);
+scraper.getData(60,1 ,"FB", run);
 displayDBContents("FB");
 
 

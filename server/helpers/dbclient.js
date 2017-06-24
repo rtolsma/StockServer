@@ -86,7 +86,7 @@ just simply connects
 	getDayRange(beginning, end , tableName) {
 		var candleList=[];
 		this.mongoClient.connect(this.uri, function(err, db){
-			var query= {time: {$gt: beginning, $lt:end}  } ;
+			var query= {time: {$gt: beginning, $lt: end} } ;
 			var sort= {time: 1};
 			db.collection(tableName)
 			.find(query)
@@ -99,7 +99,7 @@ just simply connects
 					candleList.push(candleDay);
 
 				});
-				//console.log(result);
+				console.log(result);
 			});
 
 		});
