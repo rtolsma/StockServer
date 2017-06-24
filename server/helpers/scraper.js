@@ -36,6 +36,7 @@ function requestTicker(options, callback) {
   		res.on('end', function() {
 
   			//Now we have all the ticker data pass it into the parser now
+  			
   			candles=parser.parseData(data);
   			callback(candles);
 
@@ -63,7 +64,7 @@ return "/finance/getprices?i="
 	+period+
 	"&p="
 	+days+
-	"y&f=d,o,h,l,c,v&df=cpct&q="
+	"d&f=d,o,h,l,c,v&df=cpct&q="
 	+ticker;
 } 
 
@@ -72,3 +73,5 @@ TEST
 exports.getData(60, 1, "IBM");
 console.log("Done");
 */
+
+// ex URL:  www.google.com/finance/getprices?i=60&p=1d&f=d,o,h,l,c,v&df=cpct&q=FB

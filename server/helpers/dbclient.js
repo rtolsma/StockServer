@@ -58,14 +58,15 @@ just simply connects
 			if(err) console.error(err);
 			
 
-			days.forEach(function(candle) {
+			candles.forEach(function(candle) {
 
 				var query= {time: candle.time};
 
 				db.collection(tableName)
-				.insert(candle, function(err, res ) {
-				//.update(query, days, {upsert:true}, function(err, res) {
+				//.insert(candle, function(err, res ) {
+				.update(query, candle, {upsert:true}, function(err, res) {
 					if(err) console.error("Error inserting daycandle\n",err);
+					
 					console.log(res);
 
 				});

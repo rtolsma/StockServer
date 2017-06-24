@@ -5,7 +5,6 @@ Main file for running everthing
 var scraper=require("./server/helpers/scraper");
 var parser=require("./server/helpers/parser");
 var candle=require("./server/objects/candle");
-var daycandle=require("./server/objects/daycandle");
 var databaseClient=require("./server/helpers/dbclient");
 
 
@@ -19,14 +18,27 @@ var run= function(data) {
 	DBMongo.init();
 	//DBMongo.makeTable("FB");
 	//for ttesting
-	//data.candles=data.candles.slice(0,5);
+	data=data.slice(0,1);
 	DBMongo.insertDays(data, "FB");
 	//console.log(data)
-	console.log(  DBMongo.getDayRange(0, 1499000000, "FB"));
+	//console.log(  DBMongo.getDayRange(0, 1499000000, "FB"));
 
 }
 
-scraper.getData(60,1,"FB", run);
+ function displayDBContents(table) {
+ 	console.log("Displaying DB Contents")
+ 	DBMongo.mongoClient.connect(DBMongo.uri, function(err, db) {
 
+ 		if(err) console.error(err);
+
+ 		db.collection(table).find().forEach(e => console.log(e));
+
+ 	}  )
+}
+
+
+
+//scraper.getData(60,1 ,"FB", run);
+displayDBContents("FB");
 
 
