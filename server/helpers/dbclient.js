@@ -1,5 +1,5 @@
 var mongo=require("mongodb");
-const url= "mongodb://localhost:27017/"
+const url= "mongodb://localhost:8080/"
 var MongoClient=mongo.MongoClient;
 
 class DBClient {
@@ -37,6 +37,7 @@ just simply connects
 				
 				if(err) console.error(err);
 
+				console.log(res);
 			});
 
 			db.close();
@@ -46,18 +47,33 @@ just simply connects
 	}
 
 	/*
-		days: an array containing DayCandles
+		days: a DayCandle
 		tableName: name of data table e.g IBM, AAPL
 
-		Adds DayCandles to the data table 
+		Adds DayCandle to the data table 
 	*/
-	insertDays(days, tableName) {
+	insertDays(candles, tableName) {
 		this.mongoClient.connect(this.uri, function(err, db) {
 
 			if(err) console.error(err);
-			db.collection(tableName).insert(days, function(err, res) {
-				if(err) console.error(err);
-			});
+			
+
+			days.forEach(function(candle) {
+
+				var query= {time: candle.time};
+
+				db.collection(tableName)
+				.insert(candle, function(err, res ) {
+				//.update(query, days, {upsert:true}, function(err, res) {
+					if(err) console.error("Error inserting daycandle\n",err);
+					console.log(res);
+
+				});
+
+
+
+			})
+		
 
 			db.close();
 		});
@@ -67,9 +83,9 @@ just simply connects
 	Non-Inclusive
 	*/
 	getDayRange(beginning, end , tableName) {
-		var candleDayList=[];
+		var candleList=[];
 		this.mongoClient.connect(this.uri, function(err, db){
-			var query= {time: {$gt: beginning, $lt: end }  } ;
+			var query= {time: {$gt: beginning, $lt:end}  } ;
 			var sort= {time: 1};
 			db.collection(tableName)
 			.find(query)
@@ -79,14 +95,14 @@ just simply connects
 
 
 				result.forEach(function( candleDay) {
-					candleDayList.push(candleDay);
+					candleList.push(candleDay);
 
 				});
-
+				//console.log(result);
 			});
 
 		});
-		return candleDayList;
+		return candleList;
 
 	}
 

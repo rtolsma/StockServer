@@ -1,6 +1,6 @@
 //This file takes in the string data from the scraper and will convert it into CSV/JSON/Database idk yet
-var candle=require("./candle")
-var daycandle=require("./daycandle")
+var candle=require("../objects/candle");
+var daycandle=require("../objects/daycandle");
 var lastTime=0;
 exports.parseData=function(body) {
 	//probably poor memory management
@@ -15,7 +15,8 @@ exports.parseData=function(body) {
 
 		if(values[0].startsWith("a")) {
 			time=+values[0].split("a")[1];
-			lastTime=time;
+			lastTime=time;		days: an array containing DayCandles
+
 		} else {
 			time= (+values[0])*6000+lastTime;
 		}
@@ -32,5 +33,5 @@ exports.parseData=function(body) {
 
 	});
 	//console.log(candles);
-	return new daycandle.DayCandle(candles);
+	return candles;
 }

@@ -19,7 +19,7 @@ exports.getData= function(period, days, ticker, callback) {
 function requestTicker(options, callback) {
 
 	var data="";
-	var dayCandles=[];
+	var candles=[];
 
 	var requestCallback= function(res) {
 		
@@ -36,8 +36,8 @@ function requestTicker(options, callback) {
   		res.on('end', function() {
 
   			//Now we have all the ticker data pass it into the parser now
-  			dayCandles=parser.parseData(data);
-  			callback(dayCandles);
+  			candles=parser.parseData(data);
+  			callback(candles);
 
   		});
 	};
