@@ -67,7 +67,7 @@ just simply connects
 				.update(query, candle, {upsert:true}, function(err, res) {
 					if(err) console.error("Error inserting daycandle\n",err);
 					
-					console.log(res);
+					//console.log(res);
 
 				});
 
