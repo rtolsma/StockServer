@@ -1,5 +1,5 @@
 /*
-Main file for running everthing
+Main file for running everthing/testing
 */
 
 var scraper=require("./server/helpers/scraper");
@@ -38,6 +38,7 @@ var run= function(data) {
 
 
 
-DataService.service("IBM");
+DataService.service("AAPL");
+setTimeout(() => displayDBContents("AAPL"), 61000)
 
 

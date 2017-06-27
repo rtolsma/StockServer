@@ -12,6 +12,8 @@ Stores/upserts the data into the database
 var databaseclient=require("./dbclient");
 var DBMongo=new databaseclient.DBClient("Stocks");
 var scraper=require("./scraper");
+var refresh=true;
+var timer;
 function service(ticker) {
 
 	DBMongo.init();
@@ -26,7 +28,9 @@ function service(ticker) {
 
 	dataRoutine(ticker, 15, scraperCallback);
 
-	setTimeout(60*1000, dataRoutine(ticker, 1, scraperCallback))
+	
+
+	timer=setInterval(() => dataRoutine(ticker, 1, scraperCallback), 60*1000);
 
 
 
@@ -42,3 +46,8 @@ function dataRoutine(ticker, days, callback) {
 }
 
 exports.service=service;
+exports.setRefresh= function(shouldRefresh) {
+	if(!shouldRefresh) {
+		clearInterval(timer);
+	}
+}
