@@ -82,7 +82,7 @@ just simply connects
 	Returns all DayCandles within console.log(the range beginning--end
 	Non-Inclusive
 	*/
-	getDayRange(beginning, end , tableName) {
+	getDayRange(beginning, end , tableName, callback=null) {
 		var candleList=[];
 		this.mongoClient.connect(this.uri, function(err, db){
 			var query= {time: {$gt: beginning, $lt: end} } ;
@@ -96,17 +96,29 @@ just simply connects
 
 				result.forEach(function( candleDay) {
 					candleList.push(candleDay);
-
+					if(callback!=null) {
+					callback(result);
+					}
 				});
-				console.log(result);
+				//console.log(result);
 			});
 
-		});
-		return candleList;
 
+		});
+		
+		return candleList;
 	}
 
+	 displayDBContents(table) {
+	 	console.log("Displaying DB Contents")
+	 	this.mongoClient.connect(this.uri, function(err, db) {
 
+	 		if(err) console.error(err);
+
+	 		db.collection(table).find().forEach(e => console.log(e));
+
+	 	}  )
+	}
 
 
 }

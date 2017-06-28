@@ -27,14 +27,15 @@ function service(ticker, isNew) {
 
 	DBMongo.insertDays(data, ticker);
 
-}
+	}
 
 	if(isNew) dataRoutine(ticker, 15, scraperCallback);
 
 	
 
-	timers[ticker]=setInterval(() => dataRoutine(ticker, 1, scraperCallback), 60*1000);
-
+	timers[ticker]=setInterval(
+		 () => dataRoutine(ticker, 1, scraperCallback), 60*1000);
+	// function { dataRoutine(ticker,1, scraperCallback)}
 
 
 
