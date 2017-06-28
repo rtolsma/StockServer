@@ -1,12 +1,12 @@
 var mongo=require("mongodb");
 const url= "mongodb://localhost:8080/"
-var MongoClient=mongo.MongoClient;
-
+const MongoClient=mongo.MongoClient;
+exports.MongoClient=MongoClient;
 class DBClient {
 	
 	constructor(name) {
 		this.uri=url+name;
-		this.mongoClient=require("mongodb").MongoClient;
+		this.mongoClient=MongoClient;
 	}
 
 /* 
@@ -75,7 +75,6 @@ just simply connects
 
 			})
 		
-
 			db.close();
 		});
 	}

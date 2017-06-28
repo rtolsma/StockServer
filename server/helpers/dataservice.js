@@ -10,11 +10,14 @@ Scraper will execute callback on finish, which simply
 Stores/upserts the data into the database
 */
 var databaseclient=require("./dbclient");
-var DBMongo=new databaseclient.DBClient("Stocks");
+const DBMongo=new databaseclient.DBClient("Stocks");
 var scraper=require("./scraper");
 var refresh=true;
-var timer;
-function service(ticker) {
+var timers={};
+
+//first time around gets past 15 days if isNew
+//then on only does most recent
+function service(ticker, isNew) {
 
 	DBMongo.init();
 	DBMongo.makeTable(ticker);
@@ -26,11 +29,11 @@ function service(ticker) {
 
 }
 
-	dataRoutine(ticker, 15, scraperCallback);
+	if(isNew) dataRoutine(ticker, 15, scraperCallback);
 
 	
 
-	timer=setInterval(() => dataRoutine(ticker, 1, scraperCallback), 60*1000);
+	timers[ticker]=setInterval(() => dataRoutine(ticker, 1, scraperCallback), 60*1000);
 
 
 
@@ -46,8 +49,8 @@ function dataRoutine(ticker, days, callback) {
 }
 
 exports.service=service;
-exports.setRefresh= function(shouldRefresh) {
+exports.setRefresh= function(shouldRefresh, ticker) {
 	if(!shouldRefresh) {
-		clearInterval(timer);
+		clearInterval(timers[ticker]);
 	}
 }

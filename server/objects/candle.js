@@ -42,26 +42,39 @@ class Candlestick {
 		}
 	}
 
-	//Takes in variable number of parameters
-	//assumes parameters come in time order ascending
-	static combine() {
+	//takes array of candles as input
+	//combines them into one candle
+	static combine(candles) {
 		var time=Infinity, close=0, 
 		open=Infinity, high=0, low=Infinity, volume=0;
 	
 
-		if(arguments.length>0) {
-			open=arguments[0].open;
-			close=arguments[arguments.length-1].close;
-			for(var i=0; i<arguments.length; i++)
-				volume+=arguments[i].volume;
-				if(arguments[i].high>high) high=arguments[i].high;
-				if(arguments[i].low<low) low=arguments[i].low;
+		if(candles.length>0) {
+			open=candles[0].open;
+			close=candles[candles.length-1].close;
+			for(var i=0; i<candles.length; i++)
+				volume+=candles[i].volume;
+				if(candles[i].high>high) high=candles[i].high;
+				if(candles[i].low<low) low=candles[i].low;
 		}
 
 		return new Candlestick(time,close,high, low, open,volume);
 
 	}
 
+	//takes array of Candlesticks and returns new array
+	//of candles combined by the num
+	static condense(candles, combine) {
+		var condensed=[];
+
+		for(var i=0; i<candles.length; i+=combine) {
+
+			condensed.push(combine(candles.slice(i,i+combine)));
+
+		}
+
+
+	}
 }
 //must come after class declaration for reference error
 exports.Candlestick=Candlestick;

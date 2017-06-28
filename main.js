@@ -36,9 +36,15 @@ var run= function(data) {
  	}  )
 }
 
+//test data service for multiple symbols
+var symbols=["AAPL", "FB", "IBM", "GOOG", "GPRO"]
+symbols.forEach((e) => DataService.service(e, false));
 
 
-DataService.service("AAPL");
-setTimeout(() => displayDBContents("AAPL"), 61000)
+symbols.forEach( (e) => setInterval(() => displayDBContents(e), 61000));
+
+
+symbols.forEach(  
+	(e) => setTimeout(  ()=>DataService.setRefresh(false, e), 65000 ));
 
 
