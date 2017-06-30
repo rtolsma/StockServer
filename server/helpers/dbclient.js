@@ -30,12 +30,17 @@ just simply connects
 	*/
 	makeTable(name) {
 		this.mongoClient.connect(this.uri, function(err, db) {
-
-			if(err) console.error(err);
+			var newTable=true;
+			if(err) {
+				console.error(err);
+			}
 
 			db.createCollection(name, function(err, res) {
 				
-				if(err) console.error(err);
+				if(err) {
+					console.error(err);
+					newTable=false;
+				}
 
 				console.log(res);
 			});
@@ -52,9 +57,8 @@ just simply connects
 
 		Adds DayCandle to the data table 
 	*/
-	insertDays(candles, tableName) {
+	insertDays(candles, tableName, callback=null) {
 		this.mongoClient.connect(this.uri, function(err, db) {
-
 			if(err) console.error(err);
 			
 
@@ -67,7 +71,11 @@ just simply connects
 				.update(query, candle, {upsert:true}, function(err, res) {
 					if(err) console.error("Error inserting daycandle\n",err);
 					
-					//console.log(res);
+
+					//update query is done
+					if(callback!=null) {
+						callback();
+					}
 
 				});
 
@@ -91,18 +99,25 @@ just simply connects
 			.find(query)
 			.sort(sort)
 			.toArray(function(err, result) {
-				if(err) console.error(err);
+				console.log("RESULT==", result)
+				if(err!=null) console.error(err);
+				if(result==null) {
+					console.error("Retrieving elements array is null");
 
-
-				result.forEach(function( candleDay) {
+					return;
+				}
+				result.forEach(function(candleDay) {
 					candleList.push(candleDay);
-					if(callback!=null) {
+				
+				});
+					//resulting array is done
+				if(callback!=null) {
 					callback(result);
 					}
-				});
 				//console.log(result);
-			});
+				db.close();
 
+			});
 
 		});
 		
@@ -116,11 +131,25 @@ just simply connects
 	 		if(err) console.error(err);
 
 	 		db.collection(table).find().forEach(e => console.log(e));
-
-	 	}  )
+	 		db.close();
+	 	});
 	}
 
+	tableExists(tableName) {
+		var exists=false;
+		this.mongoClient.connect(this.uri, function(err, db) {
 
+			db.admin().listDatabases( function(databases) {
+
+
+
+			})
+			db.close();
+
+		})
+
+	}
 }
+
 
 exports.DBClient=DBClient;

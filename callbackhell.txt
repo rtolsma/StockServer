@@ -1,0 +1,38 @@
+Callback hell rehabilitation plan
+
+GET REQUEST:
+The webapp submits a get request to NodeExpress to get new data.
+
+Two options here: 
+1. Just toss whatever data is currently in the database
+
+--simply reply with a getRange...may be empty
+--if it's empty (table doesn't exist, none within time range) then retrieve new data...
+--if it's still empty, return empty array indicating faulty timeline
+
+check if service exists (by using timer variables) if not then actively scrape for it
+
+2. Actively scrape new data and display it
+--Call the scraper once, insert into database, and then getrange, and then
+write the results to page response
+
+
+
+The get request should start a Dataservice for that ticker and update the database.
+
+
+GETRANGE MONGODB:
+Needs to accept a callback to execute at the end of the the toArray function.
+Otherwise the function doesn't return anything since it's asynchronous
+
+GETDATA Scraper:
+
+Needs a callback to define what to do with the data once it's been succesfully
+retrieved and parsed.
+
+All DBCLIENT Methods:
+	Should accept a callback parameter to execute on completion--may default to null
+
+DATA SERVICE:
+Meant to run async to all other processes
+Most tables will be outdated/new so need to accept Callback function to execute on initial database creation, and filling

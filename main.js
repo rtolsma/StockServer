@@ -14,8 +14,11 @@ var DataService=require("./server/helpers/dataservice");
 var DBMongo= new databaseClient.DBClient("Stocks");
 
 
-
-
+function respondData(data,res ) {
+	console.log(data);
+	res.write(JSON.stringify(data));
+	res.end();
+}
 
 app.get("/stocks/:ticker/:beginning-:end", function(req, res) {
 
@@ -24,37 +27,33 @@ app.get("/stocks/:ticker/:beginning-:end", function(req, res) {
 	var ticker=req.params["ticker"].toUpperCase();
 	console.log("beginning", beginning);
 	console.log('end', end);
-	console.log("ticker", ticker);
-	//DBMongo.getDayRange(beginning, end, ticker,
-	 console.log(DBMongo.getDayRange(beginning,end, ticker,
-	 function(data) {
-	 	console.log(data);
-	 	res.write(JSON.stringify(data));
-	 	res.end();
+	console.log("ticker", ticker); 
+	 
+	//If a data service already exists then just access database
+	if(DataService.serviceExists(ticker)) {
+		console.log("Service exists: retrieving DATA");
+		DBMongo.getDayRange(beginning, end, ticker, (data) =>respondData(data,res));
+	} else {
+		//Service does not exist, data is null/outdated
+		//Need to scrape data, put in database, then call range
+		DataService.dataRoutine(ticker, 15, function(data) {
 
-	 }));
+			DBMongo.insertDays(data,ticker, function() {
+				DBMongo.getDayRange(beginning, end, ticker,(data) =>respondData(data,res));
+			});
+
+		} );
+		//setup data service for that ticker
+		DataService.service(ticker);
+	}
+});
+	 
 	// var data=DBMongo.getDayRange(beginning, end, ticker);
 	 /*console.log("Data", data);
 	 res.write(JSON.stringify(data));
 	 res.end();*/
 	//console.log("after the fact...");
 
-});
-
-
-
-var run= function(data) {
-
-	//console.log(data);
-	DBMongo.init();
-	//DBMongo.makeTable("FB");
-	//for ttesting
-	//data=data.slice(0,1);
-	DBMongo.insertDays(data, "FB");
-	//console.log(data)
-	//data=DBMongo.getDayRange(0, 1500040000, "FB");
-	//console.log(data)
-}
 
 
 
@@ -73,4 +72,8 @@ symbols.forEach(
 
 //displayDBContents("FB");
 //console.log(d);
+DataService.service("AAPL", true);
+console.log(DataService.serviceExists("AAPL"));
+//DBMongo.getDayRange(0,99600000000, "AAPL", (data)=> {console.log(data)});
+
 app.listen(8000);

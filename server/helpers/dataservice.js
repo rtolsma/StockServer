@@ -15,26 +15,35 @@ var scraper=require("./scraper");
 var refresh=true;
 var timers={};
 
+
+
+
+function serviceExists(ticker) {
+	if(timers[ticker]) {
+		return true;
+	}
+	return false;
+}
+function setRefresh(shouldRefresh, ticker) {
+	if(!shouldRefresh) {
+		clearInterval(timers[ticker]);
+	}
+}
 //first time around gets past 15 days if isNew
 //then on only does most recent
 function service(ticker, isNew) {
-
+	if(timers[ticker]) return; //already established a service
 	DBMongo.init();
-	DBMongo.makeTable(ticker);
+	//DBMongo.makeTable(ticker);
 
-
-	var scraperCallback=function (data) {
-
-	DBMongo.insertDays(data, ticker);
-
-	}
-
-	if(isNew) dataRoutine(ticker, 15, scraperCallback);
+	if(isNew) dataRoutine(ticker, 15,
+	 (data)=>	DBMongo.insertDays(data, ticker));
 
 	
 
 	timers[ticker]=setInterval(
-		 () => dataRoutine(ticker, 1, scraperCallback), 60*1000);
+		 () => dataRoutine(ticker, 1,
+		 	(data) =>DBMongo.insertDays(data, ticker)), 60*1000);
 	// function { dataRoutine(ticker,1, scraperCallback)}
 
 
@@ -50,8 +59,8 @@ function dataRoutine(ticker, days, callback) {
 }
 
 exports.service=service;
-exports.setRefresh= function(shouldRefresh, ticker) {
-	if(!shouldRefresh) {
-		clearInterval(timers[ticker]);
-	}
-}
+exports.dataRoutine=dataRoutine;
+exports.setRefresh= setRefresh;
+
+
+exports.serviceExists= serviceExists;
