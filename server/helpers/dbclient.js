@@ -60,31 +60,32 @@ just simply connects
 	insertDays(candles, tableName, callback=null) {
 		this.mongoClient.connect(this.uri, function(err, db) {
 			if(err) console.error(err);
-			
-
-			candles.forEach(function(candle) {
-
+		
+			var bulk=db.collection(tableName).initializeUnorderedBulkOp();
+				
+			candles.forEach(function (candle) {
 				var query= {time: candle.time};
 
-				db.collection(tableName)
-				//.insert(candle, function(err, res ) {
-				.update(query, candle, {upsert:true}, function(err, res) {
+				bulk.find(query).upsert().updateOne(candle, function(err, res) {
 					if(err) console.error("Error inserting daycandle\n",err);
-					
-
-					//update query is done
-					if(callback!=null) {
-						callback();
-					}
-
+				
 				});
+			});
 
+			bulk.execute(function(err, res) {
+				//update query is done
+				if(callback!=null) {
+					callback();
+				}
+				//updates finished so close database
+				db.close();
+				console.log(JSON.stringify(res,undefined,2));
+			});				//.insert(candle, function(err, res ) {
 
-
-			})
+			
 		
-			db.close();
 		});
+		
 	}
 	/*
 	Returns all DayCandles within console.log(the range beginning--end
@@ -99,7 +100,7 @@ just simply connects
 			.find(query)
 			.sort(sort)
 			.toArray(function(err, result) {
-				console.log("RESULT==", result)
+				//console.log("RESULT==", result)
 				if(err!=null) console.error(err);
 				if(result==null) {
 					console.error("Retrieving elements array is null");
@@ -108,12 +109,11 @@ just simply connects
 				}
 				result.forEach(function(candleDay) {
 					candleList.push(candleDay);
-				
 				});
 					//resulting array is done
 				if(callback!=null) {
-					callback(result);
-					}
+					callback(candleList);
+				}
 				//console.log(result);
 				db.close();
 

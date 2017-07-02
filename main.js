@@ -15,10 +15,11 @@ var DBMongo= new databaseClient.DBClient("Stocks");
 
 
 function respondData(data,res ) {
-	console.log(data);
-	res.write(JSON.stringify(data));
-	res.end();
+	//console.log(data);
+	//res.write(JSON.stringify(data), (err)=> res.end());
+	res.end(JSON.stringify(data));
 }
+console.log(DataService.serviceExists("AAPL"));
 
 app.get("/stocks/:ticker/:beginning-:end", function(req, res) {
 
@@ -72,8 +73,14 @@ symbols.forEach(
 
 //displayDBContents("FB");
 //console.log(d);
-DataService.service("AAPL", true);
-console.log(DataService.serviceExists("AAPL"));
 //DBMongo.getDayRange(0,99600000000, "AAPL", (data)=> {console.log(data)});
+
+scraper.getData(60, 1, "LUV", (data) => {
+	DBMongo.insertDays(data, "LUV", () => {
+		//console.log("DATA", data);
+		DBMongo.getDayRange(0,9999999999999,"LUV", (data)=>console.log("RANGE", data))
+		DBMongo.displayDBContents("LUV");
+	});
+});
 
 app.listen(8000);

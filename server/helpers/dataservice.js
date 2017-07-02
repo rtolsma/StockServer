@@ -19,7 +19,7 @@ var timers={};
 
 
 function serviceExists(ticker) {
-	if(timers[ticker]) {
+	if(timers[ticker]!=null) {
 		return true;
 	}
 	return false;
@@ -31,7 +31,7 @@ function setRefresh(shouldRefresh, ticker) {
 }
 //first time around gets past 15 days if isNew
 //then on only does most recent
-function service(ticker, isNew) {
+function service(ticker, isNew=false) {
 	if(timers[ticker]) return; //already established a service
 	DBMongo.init();
 	//DBMongo.makeTable(ticker);

@@ -13,10 +13,10 @@ exports.parseData=function(body) {
 		var time=0;
 
 		if(values[0].startsWith("a")) {
-			time=+values[0].split("a")[1];
+			time= +values[0].split("a")[1];
 			lastTime=time;		
 		} else {
-			time= (+values[0])*6000+lastTime;
+			time= (+values[0])*60*1000+lastTime;
 		}
 		var close= +values[1];
 		var high=+values[2];
