@@ -19,7 +19,10 @@ function respondData(data,res ) {
 	//res.write(JSON.stringify(data), (err)=> res.end());
 	res.end(JSON.stringify(data));
 }
-console.log(DataService.serviceExists("AAPL"));
+app.get("/", function(req,res) {
+	res.end("This is the index page");
+	});
+
 
 app.get("/stocks/:ticker/:beginning-:end", function(req, res) {
 
@@ -48,39 +51,6 @@ app.get("/stocks/:ticker/:beginning-:end", function(req, res) {
 		DataService.service(ticker);
 	}
 });
-	 
-	// var data=DBMongo.getDayRange(beginning, end, ticker);
-	 /*console.log("Data", data);
-	 res.write(JSON.stringify(data));
-	 res.end();*/
-	//console.log("after the fact...");
 
-
-
-
-/*test data service for multiple symbols 
-var symbols=["AAPL", "FB", "IBM", "GOOG", "GPRO"]
-//symbols.forEach((e) => DataService.service(e, false));
-DataService.service("AAPL", true);
-setInterval( () => DBMongo.displayDBContents("AAPL"), 60000);*/
-/*
-symbols.forEach( (e) => setInterval(() => displayDBContents(e), 61000));
-
-
-symbols.forEach(  
-	(e) => setTimeout(  ()=>DataService.setRefresh(false, e), 65000 ));
-*/
-
-//displayDBContents("FB");
-//console.log(d);
-//DBMongo.getDayRange(0,99600000000, "AAPL", (data)=> {console.log(data)});
-
-scraper.getData(60, 1, "LUV", (data) => {
-	DBMongo.insertDays(data, "LUV", () => {
-		//console.log("DATA", data);
-		DBMongo.getDayRange(0,9999999999999,"LUV", (data)=>console.log("RANGE", data))
-		DBMongo.displayDBContents("LUV");
-	});
-});
 
 app.listen(8000);
