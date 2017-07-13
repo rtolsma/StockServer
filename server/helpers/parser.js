@@ -16,14 +16,14 @@ exports.parseData=function(body) {
 			time= +values[0].split("a")[1];
 			lastTime=time;		
 		} else {
-			time= (+values[0])*60*1000+lastTime;
+			time= (+values[0])*60+lastTime;
 		}
 		var close= +values[1];
 		var high=+values[2];
 		var low=+values[3];
 		var open=+values[4];
 		var volume=+values[5];
-
+		time*=1000; //convert to milliseconds
 		var candleIndicator= 
 				new candle.Candlestick(time, close, high, low, open, volume);
 
