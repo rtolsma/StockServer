@@ -1,5 +1,6 @@
 var mongo=require("mongodb");
-const url= "mongodb://localhost:8080/"
+//const url= "mongodb://localhost:27017/"
+const url= "mongodb://root:NaUr7cVm@localhost:27017/"
 const MongoClient=mongo.MongoClient;
 exports.MongoClient=MongoClient;
 class DBClient {
@@ -42,7 +43,7 @@ just simply connects
 					newTable=false;
 				}
 
-				console.log(res);
+			//	console.log(res);
 			});
 
 			db.close();
@@ -79,7 +80,7 @@ just simply connects
 				}
 				//updates finished so close database
 				db.close();
-				console.log(JSON.stringify(res,undefined,2));
+				//console.log(JSON.stringify(res,undefined,2));
 			});				//.insert(candle, function(err, res ) {
 
 			
