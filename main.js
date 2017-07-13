@@ -27,13 +27,20 @@ app.get("/", function(req,res) {
 app.get("/stocks/:ticker/:beginning-:end", function(req, res) {
 
 	var beginning=+req.params["beginning"];
-	var end=+req.params["end"];
+	var end=req.params["end"];
+
+	if( (end+"").toUpperCase()== "NOW") {
+		end=Number.MAX_VALUE;
+	} else {
+		end=+end;
+	}
+
 	var ticker=req.params["ticker"].toUpperCase();
 	console.log("beginning", beginning);
 	console.log('end', end);
 	console.log("ticker", ticker); 
 	 
-	//If a data service already exists then just access database
+	//If a data service already exists then just access dat0-1600000000abase
 	if(DataService.serviceExists(ticker)) {
 		console.log("Service exists: retrieving DATA");
 		DBMongo.getDayRange(beginning, end, ticker, (data) =>respondData(data,res));

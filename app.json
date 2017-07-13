@@ -1,0 +1,7 @@
+{
+  "name": "Ziggurat Webapp",
+  "description": "Stock database service",
+  "repository": "https://github.com/rtolsma/ziggurat-internship",
+  "keywords": ["node", "express", "heroku"],
+
+}
