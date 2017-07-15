@@ -1,4 +1,2 @@
-#app.yaml file
-
 runtime: nodejs
-evn: flex
+env: flex
