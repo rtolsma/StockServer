@@ -1,6 +1,8 @@
 /*
 Main file for running everthing/testing
 */
+require('@google-cloud/debug-agent').start();
+
 
 var express=require("express");
 var app=express();
@@ -60,4 +62,4 @@ app.get("/stocks/:ticker/:beginning-:end", function(req, res) {
 });
 
 console.log("STARTING");
-app.listen(8081);
+app.listen(80);
