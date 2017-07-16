@@ -59,5 +59,5 @@ app.get("/stocks/:ticker/:beginning-:end", function(req, res) {
 	}
 });
 
-
-app.listen(8000);
+console.log("STARTING");
+app.listen(8081);

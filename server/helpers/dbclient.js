@@ -1,6 +1,6 @@
 var mongo=require("mongodb");
 //const url= "mongodb://localhost:8080/"
-const url= "mongodb://root:NaUr7cVm@162.222.179.204:27017/"
+const url= "mongodb://root:NaUr7cVm@10.128.0.3:27017/"
 const MongoClient=mongo.MongoClient;
 exports.MongoClient=MongoClient;
 class DBClient {
@@ -43,7 +43,7 @@ just simply connects
 					newTable=false;
 				}
 
-			//	console.log(res);
+				console.log(res);
 			});
 
 			db.close();
