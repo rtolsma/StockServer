@@ -1,7 +1,7 @@
 /*
 Main file for running everthing/testing
 */
-require('@google-cloud/debug-agent').start();
+//require('@google-cloud/debug-agent').start();
 
 
 var express=require("express");
@@ -27,12 +27,22 @@ app.get("/", function(req,res) {
 
 
 app.get("/stocks/:ticker/:beginning-:end", function(req, res) {
+	var beginning;
+	if(!isNaN(req.params["beginning"])) {
+		beginning=+req.params("beginning");
+	} else {
+		res.end("beginning is not a number, parameters incorrectly formatted");
+		return;
+	}
 
-	var beginning=+req.params["beginning"];
-	var end=req.params["end"];
-
-	if( (end+"").toUpperCase()== "NOW") {
+	var end=req.params["beginning"];
+	if(isNaN(end)) {
+		if( (end+"").toUpperCase()== "NOW") {
 		end=Number.MAX_VALUE;
+		} else {
+			res.end("End is neither a number or NOW, parameters incorrectly formatted");
+			return;
+		}
 	} else {
 		end=+end;
 	}
@@ -62,4 +72,4 @@ app.get("/stocks/:ticker/:beginning-:end", function(req, res) {
 });
 
 console.log("STARTING");
-app.listen(8080);
+app.listen(80);

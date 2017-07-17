@@ -1,5 +1,5 @@
 var mongo=require("mongodb");
-const url= "mongodb://localhost:80000/"
+const url= "mongodb://localhost:21017/"
 //const url= "mongodb://root:inKLHw2f@10.128.0.2:27017/"
 const MongoClient=mongo.MongoClient;
 exports.MongoClient=MongoClient;
