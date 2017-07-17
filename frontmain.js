@@ -1,0 +1,4 @@
+//frontmain.js
+
+
+init();
