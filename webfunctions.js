@@ -5,24 +5,24 @@ easily separated to clean up Porter's shit messy code.
 */
 
 function calculateMovingAverage(dt,row) {
-     // calculate average of closing value for last x days,
-                // if we are x or more days into the data set
-                if (row >= days - 1) {
-                    var total = 0;
-                    for (var i = 0; i < days; i++) {
-                        total += dt.getValue(row - i, 3);
-                    }
-                    var avg = total / days;
-                    return {
-                        v: avg
-                        , f: avg.toFixed(2)
-                    };
-                }
-                else {
-                    // return null for < x days
-                    return null;
-                }
-            }
+    // calculate average of closing value for last x days,
+    // if we are x or more days into the data set
+    if (row >= days - 1) {
+        var total = 0;
+        for (var i = 0; i < days; i++) {
+            total += dt.getValue(row - i, 3);
+        }
+        var avg = total / days;
+        return {
+            v: avg
+            , f: avg.toFixed(2)
+        };
+    }
+    else {
+        // return null for < x days
+        return null;
+    }
+}
 
 
 
@@ -62,5 +62,7 @@ function combine(candles){
 }
 
 function init() {
+    google.charts.load('current', {'packages': ['corechart']});//loads all of the functions required by the charts
+    google.charts.setOnLoadCallback(drawChart);
 
 }
