@@ -43,19 +43,8 @@
                 view.setColumns([0, 1, 2, 3, 4, movingAverage]);
                 chart.draw(view, options);
             }
-          
-
-            google.load("visualization", "1", {
-                packages: ["corechart"]
-                , callback: drawChart
-            });
         }
         
-
-
-
-
-        }
         var twoHR=[];
         function getNewData(minutes){
             newData=[];
@@ -111,13 +100,13 @@
 <body>
     <h2 style="color:grey;">DIS</h2>
     <div class="dropdown">
-  <button class="dropbtn">Dropdown</button>
-  <div class="dropdown-content">
-    <a href="#"onClick="changeTime(60)">60 min</a>
-    <a href="#" onClick="changeTime(120)">2 hours</a>
-    <a href="#">Link 3</a>
-  </div>
-</div>
+        <button class="dropbtn">Dropdown</button>
+        <div class="dropdown-content">
+            <a href="#"onClick="changeTime(60)">60 min</a>
+            <a href="#" onClick="changeTime(120)">2 hours</a>
+            <a href="#">Link 3</a>
+        </div>
+    </div>
     <div id="chart_div" style="width: 2000px; height: 300px;"></div>
 </body>
 
