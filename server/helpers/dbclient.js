@@ -61,7 +61,10 @@ just simply connects
 	insertDays(candles, tableName, callback=null) {
 		this.mongoClient.connect(this.uri, function(err, db) {
 			if(err) console.error(err);
-		
+			//array is empty
+			if(candles.length<=0) {
+				return;
+			}
 			var bulk=db.collection(tableName).initializeUnorderedBulkOp();
 				
 			candles.forEach(function (candle) {

@@ -83,5 +83,5 @@ function getData(ticker, beginning,end) {
 
 
 console.log("STARTING");
-//StockCollector.tickers.forEach( (ticker) => getData(ticker,0, Number.MAX_VALUE));
+StockCollector.tickers.forEach( (ticker) => getData(ticker,0, Number.MAX_VALUE));
 app.listen(80);
