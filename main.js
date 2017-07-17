@@ -29,7 +29,7 @@ app.get("/", function(req,res) {
 app.get("/stocks/:ticker/:beginning-:end", function(req, res) {
 	var beginning;
 	if(!isNaN(req.params["beginning"])) {
-		beginning=+req.params("beginning");
+		beginning=+req.params["beginning"];
 	} else {
 		res.end("beginning is not a number, parameters incorrectly formatted");
 		return;
