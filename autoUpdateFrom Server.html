@@ -3,85 +3,23 @@
 
 <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="./globalvar.js"></script>
+    <script type="text/javascript" src="./graph.js"></script>
+    <script type="text/javascript" src="./webfunctions.js"></script>
+
     <script type="text/javascript">        
         var days = 5;
         var movingAverage={
             type: 'number'
             , label: days + '-minute Moving Average'
-            , calc: function (dt, row) {
-                // calculate average of closing value for last x days,
-                // if we are x or more days into the data set
-                if (row >= days - 1) {
-                    var total = 0;
-                    for (var i = 0; i < days; i++) {
-                        total += dt.getValue(row - i, 3);
-                    }
-                    var avg = total / days;
-                    return {
-                        v: avg
-                        , f: avg.toFixed(2)
-                    };
-                }
-                else {
-                    // return null for < x days
-                    return null;
-                }
-            }
+            , calc: calculateMovingAverage
         }
-        //sets up the variable for all of the options used later in the graphs
-        var options = {
-            height: 300
-            , width: 1300
-            , candlestick: {
-                fallingColor: {
-                    strokeWidth: 0
-                    , fill: '#a52714'
-                }, // red
-                risingColor: {
-                    strokeWidth: 0
-                    , fill: '#0f9d58'
-                } // green
-            }
-            , bar: {
-                groupWidth: '90%'
-            }
-            , chartArea: {
-                left: '7%'
-                , width: '85%'
-            }
-            , series: {
-                0: {
-                    type: 'candlesticks'
-                }
-                , 1: {
-                    type: 'line'
-                }
-            }
-        }
-        var stockData;
-        var displayedData=[];
+      
         google.charts.load('current', {'packages': ['corechart']});//loads all of the functions required by the charts
         var graph=new Graph(displayedData,'chart_div');
-        function Graph(arrayData,chartDivID,view){
-            this.arrayData=arrayData;
-            this.chartDivID=chartDivID;
-            this.view=view;
-            this.updatePoints=function(){//to be implemented later will updat the points to be graphed
-
-            }
-            this.setView=function(){
-                var data = google.visualization.arrayToDataTable(arrayData, true);
-                this.view = new google.visualization.DataView(data);
-
-            }
-            this.setFullArray=function(){
-
-            }
-        }
+        
         
         google.charts.setOnLoadCallback(drawChart);
-        var chart;
-        var chartTime=60;
         function drawChart() {
             //httpGetAsync("http://104.198.38.190/stocks/dis/0-now",setData);
             chart = new google.visualization.CandlestickChart(document.getElementById(graph.chartDivID));
@@ -105,47 +43,18 @@
                 view.setColumns([0, 1, 2, 3, 4, movingAverage]);
                 chart.draw(view, options);
             }
-            function httpGetAsync(theUrl, callback){
-                var xmlHttp = new XMLHttpRequest();
-                xmlHttp.onreadystatechange = function() { 
-                    if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-                        callback(xmlHttp.responseText);
-                }
-                xmlHttp.open("GET", theUrl, true); // true for asynchronous 
-                  xmlHttp.send(null);
-            }
-            function setData(HttpRequest){
-                stockData=JSON.parse(HttpRequest);
-                displayedData.length = 0;
-                for(var i=stockData.length-100;i<stockData.length;i++){
-                    displayedData.push(stockData[i]);
+          
 
-                }
-                console.log(displayedData, "object");
-
-            }
             google.load("visualization", "1", {
                 packages: ["corechart"]
                 , callback: drawChart
             });
         }
-        function objectToArray(object){
-            var array=[];
-            for(var i=0;i<object.length;i++){
-                array.push([new Date(object[i].time),object[i].low,object[i].open,object[i].close,object[i].high]);
-            }
-            return array;
-        }
+        
 
 
 
-        //changes the data to a specified user input rather than a set time
-        function changeTime(minutes){
-           chartTime=minutes;
-            if(minutes==120){
-                getNewData(minutes);
-            }
-           
+
         }
         var twoHR=[];
         function getNewData(minutes){
