@@ -22,7 +22,12 @@
   "homepage": "https://github.com/rtolsma/Ziggurat-Internship",
   "dependencies": {
     "express": "^4.15.3",
+<<<<<<< HEAD
+    "mongo": "^0.1.0",
+    "mongodb": "^2.2.30"
+=======
     "google-cloud": "^0.56.0",
     "mongo": "^0.1.0"
+>>>>>>> 50ec3f041c1e18dc6a7dfe1ecf8a75068c933b4d
   }
 }
