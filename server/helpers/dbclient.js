@@ -109,7 +109,7 @@ just simply connects
 					return;
 				}
 				result.forEach(function(candleDay) {
-					delete candleDay.id; //remove that component
+					delete candleDay._id; //remove that component
 					candleList.push(candleDay);
 				});
 					//resulting array is done

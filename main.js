@@ -12,7 +12,7 @@ var parser=require("./server/helpers/parser");
 var candle=require("./server/objects/candle");
 var databaseClient=require("./server/helpers/dbclient");
 var DataService=require("./server/helpers/dataservice");
-
+var StockCollector=require("./data.js");
 var DBMongo= new databaseClient.DBClient("Stocks");
 
 
@@ -35,7 +35,7 @@ app.get("/stocks/:ticker/:beginning-:end", function(req, res) {
 		return;
 	}
 
-	var end=req.params["beginning"];
+	var end=req.params["end"];
 	if(isNaN(end)) {
 		if( (end+"").toUpperCase()== "NOW") {
 		end=Number.MAX_VALUE;
@@ -72,4 +72,5 @@ app.get("/stocks/:ticker/:beginning-:end", function(req, res) {
 });
 
 console.log("STARTING");
+StockCollector.stockCollector();
 app.listen(80);
