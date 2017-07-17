@@ -24,25 +24,6 @@ function calculateMovingAverage(dt,row) {
                 }
             }
 
-function httpGetAsync(theUrl, callback){
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function() { 
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-            callback(xmlHttp.responseText);
-        }
-    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
-    xmlHttp.send(null);
-}
-function setData(HttpRequest){
-    stockData=JSON.parse(HttpRequest);
-    displayedData.length = 0;
-    for(var i=stockData.length-100;i<stockData.length;i++){
-        displayedData.push(stockData[i]);
-
-    }
-    console.log(displayedData, "object");
-
-}
 
 
 function objectToArray(object){
@@ -61,6 +42,24 @@ function changeTime(minutes){
     }
 }
 
+function combine(candles){
+    var time=candles[0].time;
+    var close=0;
+    var open=0;
+    var high=0;
+    var low=Infinity;
+    var volume=0;
+    if(candles.length>0) {
+        open=candles[0].open;
+        close=candles[candles.length-1].close;
+        for(var i=0; i<candles.length; i++){
+            if(candles[i].high>high){ high=candles[i].high;}
+            if(candles[i].low<low){ low=candles[i].low;}
+        }
+    }
+    var date=new Date(time);
+    return {"time":date, "low":low, "open":open, "close":close,"high": high};
+}
 
 function init() {
 

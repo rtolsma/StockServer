@@ -1,4 +1,4 @@
-
+<!DOCTYPE HTML> 
 <html>
 
 <head>
@@ -45,17 +45,17 @@
             }
           
 
-            google.load("visualization", "1", {
+           /* google.load("visualization", "1", {
                 packages: ["corechart"]
                 , callback: drawChart
-            });
+            }); */
         }
         
 
 
 
 
-        }
+        
         var twoHR=[];
         function getNewData(minutes){
             newData=[];
@@ -83,24 +83,7 @@
                         newData.push(twoHR[i]);
                 }
              }
-             function combine(candles){
-                var time=candles[0].time;
-                var close=0;
-                var open=0;
-                var high=0;
-                var low=Infinity;
-                var volume=0;
-		        if(candles.length>0) {
-			        open=candles[0].open;
-			        close=candles[candles.length-1].close;
-			        for(var i=0; i<candles.length; i++){
-				        if(candles[i].high>high){ high=candles[i].high;}
-				        if(candles[i].low<low){ low=candles[i].low;}
-                    }
-		        }
-                var date=new Date(time);
-                return {"time":date, "low":low, "open":open, "close":close,"high": high};
-            }
+             
         }
 
         
