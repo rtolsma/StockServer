@@ -52,6 +52,11 @@ app.get("/stocks/:ticker/:beginning-:end", function(req, res) {
 	console.log('end', end);
 	console.log("ticker", ticker); 
 	 
+	getData(ticker, beginning, end);
+});
+
+
+function getData(ticker, beginning=0, end=Number.MAX_VALUE) {
 	//If a data service already exists then just access dat0-1600000000abase
 	if(DataService.serviceExists(ticker)) {
 		console.log("Service exists: retrieving DATA");
@@ -69,8 +74,9 @@ app.get("/stocks/:ticker/:beginning-:end", function(req, res) {
 		//setup data service for that ticker
 		DataService.service(ticker);
 	}
-});
+}
+
 
 console.log("STARTING");
-StockCollector.stockCollector();
+StockCollector.tickers.forEach((ticker)=>(getData(ticker,0,Number.MAX_VALUE)));
 app.listen(80);

@@ -7,12 +7,6 @@ var DataService=require("./server/helpers/dataservice");
 var DBMongo= new databaseClient.DBClient("Stocks");
 
 
-exports.stockCollector=function () {
-var tickers=["FB", "GOOG","AAPL", "T", "ORCL","AMZN", "DIS", "WMT", "HD","PG", 
+exports.tickers=["FB", "GOOG","AAPL", "T", "ORCL","AMZN", "DIS", "WMT", "HD","PG", 
 "MO", "RAI", "NKE", "JPM", "WFC", "BAC", "BRK-B","C", "V",
 "GE", "BA", "UTX", "JNJ", "PFE", "XOM", "CVX"  ];
-
-    tickers.forEach( (ticker)=> DataService.service(ticker, true));
-
-}
-
