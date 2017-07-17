@@ -77,6 +77,7 @@ function getData(ticker, beginning,end) {
 				console.log("got data");
 			});
 		});
+		DataService.service(ticker);
 	}
 }
 

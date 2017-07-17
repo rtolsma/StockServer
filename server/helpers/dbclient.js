@@ -63,7 +63,11 @@ just simply connects
 			if(err) console.error(err);
 			//array is empty
 			if(candles.length<=0) {
-				callback();
+				if(callback!=null) {
+					db.close();
+					callback();
+				}
+
 				return;
 			}
 			var bulk=db.collection(tableName).initializeUnorderedBulkOp();
@@ -80,7 +84,9 @@ just simply connects
 			bulk.execute(function(err, res) {
 				//update query is done
 				if(callback!=null) {
+					db.close();
 					callback();
+					return;
 				}
 				//updates finished so close database
 				db.close();
@@ -118,7 +124,9 @@ just simply connects
 				});
 					//resulting array is done
 				if(callback!=null) {
+					db.close();
 					callback(candleList);
+					return;
 				}
 				//console.log(result);
 				db.close();
