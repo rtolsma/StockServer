@@ -52,11 +52,6 @@ app.get("/stocks/:ticker/:beginning-:end", function(req, res) {
 	console.log('end', end);
 	console.log("ticker", ticker); 
 	 
-	getData(ticker, beginning, end);
-});
-
-
-function getData(ticker, beginning=0, end=Number.MAX_VALUE) {
 	//If a data service already exists then just access dat0-1600000000abase
 	if(DataService.serviceExists(ticker)) {
 		console.log("Service exists: retrieving DATA");
@@ -74,9 +69,19 @@ function getData(ticker, beginning=0, end=Number.MAX_VALUE) {
 		//setup data service for that ticker
 		DataService.service(ticker);
 	}
+});
+function getData(ticker, beginning,end) {
+	if(!DataService.serviceExists(ticker)) {
+		DataService.dataRoutine(ticker,15, function(data) {
+			DBMongo.insertDays(data,ticker, function() {
+				console.log("got data");
+			});
+		});
+	}
 }
 
 
+
 console.log("STARTING");
-StockCollector.tickers.forEach((ticker)=>(getData(ticker,0,Number.MAX_VALUE)));
+//StockCollector.tickers.forEach( (ticker) => getData(ticker,0, Number.MAX_VALUE));
 app.listen(80);
