@@ -8,5 +8,5 @@ var DBMongo= new databaseClient.DBClient("Stocks");
 
 
 exports.tickers=["FB", "GOOG","AAPL", "T", "ORCL","AMZN", "DIS", "WMT", "HD","PG", 
-"MO", "RAI", "NKE", "JPM", "WFC", "BAC", "BRK-B","C", "V",
+"MO", "RAI", "NKE", "JPM", "WFC", "BAC", "BRKB","C", "V",
 "GE", "BA", "UTX", "JNJ", "PFE", "XOM", "CVX"  ];
