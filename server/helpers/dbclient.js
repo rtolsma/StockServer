@@ -70,7 +70,7 @@ just simply connects
 
 				return;
 			}
-			var bulk=db.collection(tableName).initializeUnorderedBulkOp();
+			var bulk=db.collection(tableName).initializeOrderedBulkOp();
 				
 			candles.forEach(function (candle) {
 				var query= {time: candle.time};
@@ -107,6 +107,10 @@ just simply connects
 		this.mongoClient.connect(this.uri, function(err, db){
 			var query= {time: {$gt: beginning, $lt: end} } ;
 			var sort= {time: 1};
+			//var bulk=db.collection(tableName).initializeOrderedBulkOp();
+
+			
+			//bulk.find(query)
 			db.collection(tableName)
 			.find(query)
 			.sort(sort)
