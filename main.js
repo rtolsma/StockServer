@@ -62,4 +62,4 @@ app.get("/stocks/:ticker/:beginning-:end", function(req, res) {
 });
 
 console.log("STARTING");
-app.listen(80);
+app.listen(8080);

@@ -1,6 +1,6 @@
 var mongo=require("mongodb");
-//const url= "mongodb://localhost:8080/"
-const url= "mongodb://root:inKLHw2f@10.128.0.2:27017/"
+const url= "mongodb://localhost:80000/"
+//const url= "mongodb://root:inKLHw2f@10.128.0.2:27017/"
 const MongoClient=mongo.MongoClient;
 exports.MongoClient=MongoClient;
 class DBClient {
@@ -109,6 +109,7 @@ just simply connects
 					return;
 				}
 				result.forEach(function(candleDay) {
+					delete candleDay.id; //remove that component
 					candleList.push(candleDay);
 				});
 					//resulting array is done
