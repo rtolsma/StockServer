@@ -1,6 +1,6 @@
 var mongo=require("mongodb");
-const url= "mongodb://localhost:8080/"
-//const url= "mongodb://root:NaUr7cVm@localhost:27017/"
+const url= "mongodb://localhost:21017/"
+//const url= "mongodb://root:inKLHw2f@10.128.0.2:27017/"
 const MongoClient=mongo.MongoClient;
 exports.MongoClient=MongoClient;
 class DBClient {
@@ -43,7 +43,7 @@ just simply connects
 					newTable=false;
 				}
 
-			//	console.log(res);
+				console.log(res);
 			});
 
 			db.close();
@@ -61,7 +61,11 @@ just simply connects
 	insertDays(candles, tableName, callback=null) {
 		this.mongoClient.connect(this.uri, function(err, db) {
 			if(err) console.error(err);
-		
+			//array is empty
+			if(candles.length<=0) {
+				callback();
+				return;
+			}
 			var bulk=db.collection(tableName).initializeUnorderedBulkOp();
 				
 			candles.forEach(function (candle) {
@@ -109,6 +113,7 @@ just simply connects
 					return;
 				}
 				result.forEach(function(candleDay) {
+					delete candleDay._id; //remove that component
 					candleList.push(candleDay);
 				});
 					//resulting array is done

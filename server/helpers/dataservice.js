@@ -61,6 +61,4 @@ function dataRoutine(ticker, days, callback) {
 exports.service=service;
 exports.dataRoutine=dataRoutine;
 exports.setRefresh= setRefresh;
-
-
 exports.serviceExists= serviceExists;

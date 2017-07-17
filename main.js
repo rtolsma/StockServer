@@ -1,6 +1,8 @@
 /*
 Main file for running everthing/testing
 */
+//require('@google-cloud/debug-agent').start();
+
 
 var express=require("express");
 var app=express();
@@ -10,7 +12,7 @@ var parser=require("./server/helpers/parser");
 var candle=require("./server/objects/candle");
 var databaseClient=require("./server/helpers/dbclient");
 var DataService=require("./server/helpers/dataservice");
-
+var StockCollector=require("./data.js");
 var DBMongo= new databaseClient.DBClient("Stocks");
 
 
@@ -25,12 +27,22 @@ app.get("/", function(req,res) {
 
 
 app.get("/stocks/:ticker/:beginning-:end", function(req, res) {
+	var beginning;
+	if(!isNaN(req.params["beginning"])) {
+		beginning=+req.params["beginning"];
+	} else {
+		res.end("beginning is not a number, parameters incorrectly formatted");
+		return;
+	}
 
-	var beginning=+req.params["beginning"];
 	var end=req.params["end"];
-
-	if( (end+"").toUpperCase()== "NOW") {
+	if(isNaN(end)) {
+		if( (end+"").toUpperCase()== "NOW") {
 		end=Number.MAX_VALUE;
+		} else {
+			res.end("End is neither a number or NOW, parameters incorrectly formatted");
+			return;
+		}
 	} else {
 		end=+end;
 	}
@@ -58,6 +70,18 @@ app.get("/stocks/:ticker/:beginning-:end", function(req, res) {
 		DataService.service(ticker);
 	}
 });
+function getData(ticker, beginning,end) {
+	if(!DataService.serviceExists(ticker)) {
+		DataService.dataRoutine(ticker,15, function(data) {
+			DBMongo.insertDays(data,ticker, function() {
+				console.log("got data");
+			});
+		});
+	}
+}
 
 
-app.listen(8000);
+
+console.log("STARTING");
+StockCollector.tickers.forEach( (ticker) => getData(ticker,0, Number.MAX_VALUE));
+app.listen(80);
