@@ -63,6 +63,7 @@ just simply connects
 			if(err) console.error(err);
 			//array is empty
 			if(candles.length<=0) {
+				callback();
 				return;
 			}
 			var bulk=db.collection(tableName).initializeUnorderedBulkOp();
