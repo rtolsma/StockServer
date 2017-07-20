@@ -13,6 +13,12 @@ graphs.push(new Graph([], "bananas", "AAPL", 60, 2));
 
 
 function drawChart() {
+
+    graphs.forEach((graph) =>{
+        graph.getData();
+        graph.drawChart();
+    });
+
     setInterval(()=>updateGraphs(graphs), 5*1000);
     setInterval(() => drawGraphs(graphs), 10 * 1000);
     // drawChart();//draws chart the first time
