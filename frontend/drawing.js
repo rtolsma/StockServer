@@ -18,7 +18,7 @@ function drawChart() {
     
     //init
     httpGetAsync("http://104.198.38.190/stocks/dis/0-now", (response) =>{
-        setData(response);
+        setData(response,stockData);
         drawData(chart);
     });
     
@@ -48,30 +48,8 @@ function drawData(chart){
 var twoHR=[];
 function getNewData(minutes){
     newData=[];
-    combineAll();
-    
-        function combineAll(){
-            var placeHolder=[];     
-            var place=[];
-            for(var i=0;i<stockData.length;i++){
-                if(i%2==0){
-                    var date=new Date(stockData[i].time);
-                    place.push([date,stockData[i].low, stockData[i].open, stockData[i].close, stockData[i].high]);
-                    date=new Date(stockData[i+1].time);
-                    place.push([date,stockData[i+1].low, stockData[i+1].open, stockData[i+1].close, stockData[i+1].high]);
-                    placeHolder=combine(place);
-                    console.log(placeHolder,"place");
-                    twoHR.push(placeHolder);
-                    place=[];
-                }
-                    
-                
-            }
-            for(var i=0;i<50;i++){
-                    newData.push(twoHR[i]);
-            }
-        }
-        
+    //fix stuff later
+    combineAll(newData, stockData, 2);   
 }
 
         

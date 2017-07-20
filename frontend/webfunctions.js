@@ -60,6 +60,25 @@ function combine(candles){
     var date=new Date(time);
     return {"time":date, "low":low, "open":open, "close":close,"high": high};
 }
+ //BROKE!!!fix combine
+function combineAll(newData, stockData, minutes){
+    var placeHolder=[];     
+    var place=[];
+    for(var i=0;i<stockData.length;i+=minutes){
+            var date=new Date(stockData[i].time);
+            place.push([date,stockData[i].low, stockData[i].open, stockData[i].close, stockData[i].high]);
+            date=new Date(stockData[i+1].time);
+            place.push([date,stockData[i+1].low, stockData[i+1].open, stockData[i+1].close, stockData[i+1].high]);
+            placeHolder=combine(place);
+            console.log(placeHolder,"place");
+            twoHR.push(placeHolder);
+            place=[];    
+    }
+        //haxy for now
+    for(var i=0;i<(120/minutes);i++){
+            newData.push(twoHR[i]);
+    }
+}
 
 function init() {
     google.charts.load('current', {'packages': ['corechart']});//loads all of the functions required by the charts
