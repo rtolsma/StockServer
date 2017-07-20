@@ -1,4 +1,4 @@
-<!DOCTYPE HTML> 
+<!DOCTYPE HTML>
 <html>
 
 <head>
@@ -6,6 +6,7 @@
     <script type="text/javascript" src="./globalvar.js"></script>
     <script type="text/javascript" src="./graph.js"></script>
     <script type="text/javascript" src="./webfunctions.js"></script>
+<<<<<<< HEAD
 
     <script type="text/javascript">        
        
@@ -13,111 +14,171 @@
         function getNewData(minutes){
             newData=[];
             min=minutes;
-            combineAll();
-            
-             function combineAll(){
-                var placeHolder=[];     
-                var place=[];
-                for(var i=0;i<stockData.length;i++){
-                    if(i%2==0){
-                        var date=new Date(stockData[i].time);
-                        place.push([date,stockData[i].low, stockData[i].open, stockData[i].close, stockData[i].high]);
-                        date=new Date(stockData[i+1].time);
-                        place.push([date,stockData[i+1].low, stockData[i+1].open, stockData[i+1].close, stockData[i+1].high]);
-                        placeHolder=combine(place);
-                        console.log(placeHolder,"place");
-                        twoHR.push(placeHolder);
-                        place=[];
-                    }
-                        
-                    
-                }
-                for(var i=0;i<50;i++){
-                        newData.push(twoHR[i]);
-                }
-             }
-             function combine(candles){
-                var time=candles[0].time;
-                var close=0;
-                var open=0;
-                var high=0;
-                var low=Infinity;
-                var volume=0;
-		        if(candles.length>0) {
-			        open=candles[0].open;
-			        close=candles[candles.length-1].close;
-			        for(var i=0; i<candles.length; i++){
-				        if(candles[i].high>high){ high=candles[i].high;}
-				        if(candles[i].low<low){ low=candles[i].low;}
-                    }
-		        }
-                var date=new Date(time);
-                return {"time":date, "low":low, "open":open, "close":close,"high": high};
+=======
+    <script type="text/javascript">
+        var days = 5;
+        var movingAverage = {
+            type: 'number'
+            , label: days + '-minute Moving Average'
+            , calc: calculateMovingAverage
+        }
+        google.charts.load('current', {
+            'packages': ['corechart']
+        }); //loads all of the functions required by the charts
+        var graph = new Graph(displayedData, 'chart_div');
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            //httpGetAsync("http://104.198.38.190/stocks/dis/0-now",setData);
+            chart = new google.visualization.CandlestickChart(document.getElementById(graph.chartDivID));
+            //init
+            httpGetAsync("http://104.198.38.190/stocks/dis/0-now", (response) => {
+                    setData(response);
+                    drawData();
+                })
+                //the interval crap
+            setInterval(() => httpGetAsync("http://104.198.38.190/stocks/dis/0-now", setData), 15 * 1000); //change the url
+            setInterval(() => drawData(), 10 * 1000);
+            // drawChart();//draws chart the first time
+            function drawData() {
+                var displayedArray = objectToArray(displayedData);
+                var data = google.visualization.arrayToDataTable(displayedArray, true);
+                var view = new google.visualization.DataView(data);
+                console.log(displayedArray, "display");
+                view.setColumns([0, 1, 2, 3, 4, movingAverage]);
+                chart.draw(view, options);
             }
+        }
+        var twoHR = [];
+
+        function getNewData(minutes) {
+            newData = [];
+            min = minutes;
+>>>>>>> Materialize
+            combineAll();
+
+            function combineAll() {
+                var placeHolder = [];
+                var place = [];
+                for (var i = 0; i < stockData.length; i++) {
+                    if (i % 2 == 0) {
+                        var date = new Date(stockData[i].time);
+                        place.push([date, stockData[i].low, stockData[i].open, stockData[i].close, stockData[i].high]);
+                        date = new Date(stockData[i + 1].time);
+                        place.push([date, stockData[i + 1].low, stockData[i + 1].open, stockData[i + 1].close, stockData[i + 1].high]);
+                        placeHolder = combine(place);
+                        console.log(placeHolder, "place");
+                        twoHR.push(placeHolder);
+                        place = [];
+                    }
+                }
+                for (var i = 0; i < 50; i++) {
+                    newData.push(twoHR[i]);
+                }
+            }
+<<<<<<< HEAD
         }
     </script>
     <script type="text/javascript" src="./httpfunctions.js"></script>
     <script type="text/javascript" src="./drawing.js"></script>
     <script type="text/javascript" src="./frontmain.js"></script>
+=======
+>>>>>>> Materialize
 
+            function combine(candles) {
+                var time = candles[0].time;
+                var close = 0;
+                var open = 0;
+                var high = 0;
+                var low = Infinity;
+                var volume = 0;
+                if (candles.length > 0) {
+                    open = candles[0].open;
+                    close = candles[candles.length - 1].close;
+                    for (var i = 0; i < candles.length; i++) {
+                        if (candles[i].high > high) {
+                            high = candles[i].high;
+                        }
+                        if (candles[i].low < low) {
+                            low = candles[i].low;
+                        }
+                    }
+                }
+                var date = new Date(time);
+                return {
+                    "time": date
+                    , "low": low
+                    , "open": open
+                    , "close": close
+                    , "high": high
+                };
+            }
+        } < script type = "text/javascript"
+        src = "./frontend/globalvar.js" >
+    </script>
+    <script type="text/javascript" src="./frontend/graph.js"></script>
+    <script type="text/javascript" src="./frontend/webfunctions.js"></script>
+    <script type="text/javascript" src="./frontend/httpfunctions.js"></script>
+    <script type="text/javascript" src="./frontend/drawing.js"></script>
+    <script type="text/javascript" src="./frontend/frontmain.js"></script>
 </head>
 
 <body>
     <h2 style="color:grey;">DIS</h2>
     <div class="dropdown">
         <button class="dropbtn">Dropdown</button>
-        <div class="dropdown-content">
-            <a href="#"onClick="changeTime(60)">60 min</a>
-            <a href="#" onClick="changeTime(120)">2 hours</a>
-            <a href="#">Link 3</a>
-        </div>
+        <div class="dropdown-content"> <a href="#" onClick="changeTime(60)">60 min</a> <a href="#" onClick="changeTime(120)">2 hours</a> <a href="#">Link 3</a> </div>
     </div>
     <div id="chart_div" style="width: 2000px; height: 300px;"></div>
 </body>
 
 </html>
-<style>.dropbtn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-}
-
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #f1f1f1}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {
-    background-color: #3e8e41;
-}</style>
+<style>
+    .dropbtn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+    /* The container <div> - needed to position the dropdown content */
+    
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+    /* Dropdown Content (Hidden by Default) */
+    
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+    /* Links inside the dropdown */
+    
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+    /* Change color of dropdown links on hover */
+    
+    .dropdown-content a:hover {
+        background-color: #f1f1f1
+    }
+    /* Show the dropdown menu on hover */
+    
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+    /* Change the background color of the dropdown button when the dropdown content is shown */
+    
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+</style>
