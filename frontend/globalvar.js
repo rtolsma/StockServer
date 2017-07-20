@@ -2,11 +2,7 @@
 
 
 
-var stockData;
-var displayedData=[];
 
-var chart;
-var chartTime=60;
 //sets up the variable for all of the options used later in the graphs
 var options = {
     height: 300

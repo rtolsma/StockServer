@@ -8,13 +8,3 @@ function httpGetAsync(theUrl, callback){
     xmlHttp.open("GET", theUrl, true); // true for asynchronous 
     xmlHttp.send(null);
 }
-function setData(HttpRequest){
-    stockData=JSON.parse(HttpRequest);
-    displayedData.length = 0;
-    for(var i=stockData.length-100;i<stockData.length;i++){
-        displayedData.push(stockData[i]);
-
-    }
-    console.log(displayedData, "object");
-
-}

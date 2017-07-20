@@ -35,12 +35,12 @@ function objectToArray(object){
 }
 
 //changes the data to a specified user input rather than a set time
-function changeTime(minutes){
+/*function changeTime(minutes){
     chartTime=minutes;
     if(minutes==120){
         getNewData(minutes);
     }
-}
+} */
 
 function combine(candles){
     var time=candles[0].time;
@@ -61,23 +61,20 @@ function combine(candles){
     return {"time":date, "low":low, "open":open, "close":close,"high": high};
 }
  //BROKE!!!fix combine
-function combineAll(newData, stockData, minutes){
-    var placeHolder=[];     
-    var place=[];
-    for(var i=0;i<stockData.length;i+=minutes){
-            var date=new Date(stockData[i].time);
-            place.push([date,stockData[i].low, stockData[i].open, stockData[i].close, stockData[i].high]);
-            date=new Date(stockData[i+1].time);
-            place.push([date,stockData[i+1].low, stockData[i+1].open, stockData[i+1].close, stockData[i+1].high]);
-            placeHolder=combine(place);
-            console.log(placeHolder,"place");
-            twoHR.push(placeHolder);
-            place=[];    
+ /**
+  * Takes in an array of 1min candlesticks
+  * Returns a new array of the combined candlesticks
+  */
+function combineAll(data, minutes){
+    var result=[];
+    for(var i=0; i<data.length-minutes; i+=minutes) {
+        var tempCandles=[];
+        for(var j=i; j<i+minutes; j++) {
+            tempCandles.push(data[j]);
+        }
+        result.push(combine(tempCandles));
     }
-        //haxy for now
-    for(var i=0;i<(120/minutes);i++){
-            newData.push(twoHR[i]);
-    }
+    return result;
 }
 
 function init() {

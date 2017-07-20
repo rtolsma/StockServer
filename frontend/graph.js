@@ -34,6 +34,7 @@ function Graph(arrayData,chartDivID, ticker, duration, length){
             this.ticker=ticker;
             this.duration=duration;
             this.length=length;
+            //creates the html chart
             this.chartDiv=document.createElement("div");
             this.chartDiv.setAttribute("id", chartDivID);
            
@@ -45,16 +46,17 @@ function Graph(arrayData,chartDivID, ticker, duration, length){
              * 
              * Get Data : Retrieve Data from server
              * 
-             * Draw Chart : Update the graph and draws charts (setInterval)
+             * Draw Chart : Update the graph and draws charts (setInterval). 
              * 
              * 
              * 
              */
             this.drawChart=function(){
+                setDisplayData(combineAll(arrayData, length))
                 var displayedArray=objectToArray(this.displayedArray);
                 var data = google.visualization.arrayToDataTable(this.displayedArray, true);
                 var view = new google.visualization.DataView(data);
-                view.setColumns([0, 1, 2, 3, 4, movingAverage]);
+                view.setColumns([0, 1, 2, 3, 4, movingAverage]); //this is for the moving average value
                 chart.draw(view, options);
             }
 
@@ -64,29 +66,23 @@ function Graph(arrayData,chartDivID, ticker, duration, length){
                     +this.ticker+"/"+this.beginning+"-"
                     +this.end;
 
-                httpGetAsync(url, (httpResponse)=> {
-                    
-                    var stockData=JSON.parse(httpResponse);
+                httpGetAsync(url, parseSetData);
 
-
+            }
+            
+            this.parseSetData= function (httpResponse) {
+                var stockData=JSON.parse(httpResponse);
                     var tempData=[];
                     for(var i=stockData.length-duration;i<stockData.length;i++){
                         //BROKE!!! TODO: Add combineAll to make it 1min, 2min, 5min etc.
                         tempData.push(stockData[i]);
                     }
-                     //prevent mem leaks and
-                     //never sets displayedData=[], which could potentially
-                     //cause issues if drawChart overlapped
-                    displayedData=tempData;
-                    delete tempData;
+                     
+                    var isFirstTime= (this.arrayData==[]);
+                    setData(tempData);
+                    if(isFirstTime) this.drawChart;
 
-                    if(firstTime) {
-                        //want to update graph immediately
-                        this.arrayData=displayedData;
-                        this.drawChart();
-                    }
-                });
-                
+                     delete tempData;
             }
             /**
              * Getters and setters for important variables
