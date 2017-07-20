@@ -1,4 +1,4 @@
-
+<!DOCTYPE HTML> 
 <html>
 
 <head>
@@ -8,43 +8,7 @@
     <script type="text/javascript" src="./webfunctions.js"></script>
 
     <script type="text/javascript">        
-        var days = 5;
-        var movingAverage={
-            type: 'number'
-            , label: days + '-minute Moving Average'
-            , calc: calculateMovingAverage
-        }
-      
-        google.charts.load('current', {'packages': ['corechart']});//loads all of the functions required by the charts
-        var graph=new Graph(displayedData,'chart_div');
-        
-        
-        google.charts.setOnLoadCallback(drawChart);
-        function drawChart() {
-            //httpGetAsync("http://104.198.38.190/stocks/dis/0-now",setData);
-            chart = new google.visualization.CandlestickChart(document.getElementById(graph.chartDivID));
-           
-           //init
-           httpGetAsync("http://104.198.38.190/stocks/dis/0-now", (response) =>{
-               setData(response);
-               drawData();
-           })
-           
-           //the interval crap
-            setInterval(() => httpGetAsync("http://104.198.38.190/stocks/dis/0-now",setData), 15 * 1000);//change the url
-            setInterval(() => drawData(), 10 * 1000);
-           // drawChart();//draws chart the first time
-            
-            function drawData(){
-                var displayedArray=objectToArray(displayedData);
-                var data = google.visualization.arrayToDataTable(displayedArray, true);
-                var view = new google.visualization.DataView(data);
-                console.log(displayedArray,"display");
-                view.setColumns([0, 1, 2, 3, 4, movingAverage]);
-                chart.draw(view, options);
-            }
-        }
-        
+       
         var twoHR=[];
         function getNewData(minutes){
             newData=[];
@@ -91,10 +55,11 @@
                 return {"time":date, "low":low, "open":open, "close":close,"high": high};
             }
         }
-
-        
-        
     </script>
+    <script type="text/javascript" src="./httpfunctions.js"></script>
+    <script type="text/javascript" src="./drawing.js"></script>
+    <script type="text/javascript" src="./frontmain.js"></script>
+
 </head>
 
 <body>

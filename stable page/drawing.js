@@ -24,7 +24,7 @@ function drawChart() {
     
     //the interval crap
     setInterval(() => httpGetAsync("http://104.198.38.190/stocks/dis/0-now",setData), 15 * 1000);//change the url
-    setInterval(() => drawData(), 10 * 1000);
+    setInterval(() => drawData(chart), 10 * 1000);
     // drawChart();//draws chart the first time
     /* google.load("visualization", "1", {
         packages: ["corechart"]
