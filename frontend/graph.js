@@ -40,23 +40,36 @@ function Graph(arrayData,chartDivID, ticker, duration, length){
             
 
 
+            /*
+            Function assignment...
+            */
+            this.setData=setData;
+            this.setDisplayData=setDisplayData;
+            this.setDuration=setDuration;
+            this.setLength=setLength;
+            this.init=init;
+            this.drawChart=drawChart;
+            this.parseSetData=parseSetData;
+
+
+
 
               /**
              * Getters and setters for important variables
              * 
              * 
              */
-            this.setData=function(candlesticks){
+            function setData(candlesticks){
                 this.arrayData=candlesticks;
             }
-            this.setDisplayData=function(displayData) {
+            function setDisplayData(displayData) {
                 this.displayedData=displayData;
             }
-           this.setDuration=function(dur) {
+           function setDuration(dur) {
                 this.duration=dur;
             }
             
-            this.setLength=function(len) {
+            function setLength(len) {
                 this.length=len;
             }
 
@@ -70,7 +83,7 @@ function Graph(arrayData,chartDivID, ticker, duration, length){
              * 
              * 
              */
-            this.init=function() {
+            function init() {
                 this.chartDiv=document.createElement("div");
                 this.chartDiv.setAttribute("id", this.chartDivID);
                 this.chartDiv.setAttribute("style", "width:1000");
@@ -79,8 +92,9 @@ function Graph(arrayData,chartDivID, ticker, duration, length){
                 this.chart=new google.visualization.CandlestickChart(this.chartDiv);
             }
             //TODO:Separate drawing movingAverage from this function
-            this.drawChart=function (){
-                this.setDisplayData(combineAll(this.arrayData, length))
+            
+            function drawChart(){
+                setDisplayData(combineAll(this.arrayData, length));
                 var toDisplay=objectToArray(this.displayedArray);
                 var data = google.visualization.arrayToDataTable(toDisplay, true);
                 var view = new google.visualization.DataView(data);
@@ -90,7 +104,7 @@ function Graph(arrayData,chartDivID, ticker, duration, length){
 
            
             
-            this.parseSetData=function(httpResponse) {
+            function parseSetData(httpResponse) {
                 var stockData=JSON.parse(httpResponse);
                 var tempData=[];
                 for(var i=stockData.length-this.duration;i<stockData.length;i++){
@@ -105,14 +119,14 @@ function Graph(arrayData,chartDivID, ticker, duration, length){
                     delete tempData;
             }
            
-            this.getData=function(callback=null, firstTime=false, beginning=0, end="now") {
+            function getData(callback=null, firstTime=false, beginning=0, end="now") {
                 //sets up url from class variables
                 var url="http://104.198.38.190/stocks/"
                     +this.ticker+"/"+beginning+"-"
                     +end;
 
                 httpGetAsync(url, (response)=>{
-                    this.parseSetData(response);
+                    parseSetData(response);
                     if(callback!=null) callback();
                 } );
 
