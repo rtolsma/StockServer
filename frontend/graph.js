@@ -35,11 +35,8 @@ function Graph(arrayData,chartDivID, ticker, duration, length){
             this.duration=duration;
             this.length=length;
             //creates the html chart
-            this.chartDiv=document.createElement("div");
-            this.chartDiv.setAttribute("id", chartDivID);
-           
-            this.chart=new google.visualization.CandlestickChart(chartDiv);
-            
+            this.chartDiv; 
+            this.chartDivID=chartDivID;
             
             /**
              * Class Functions:
@@ -51,38 +48,48 @@ function Graph(arrayData,chartDivID, ticker, duration, length){
              * 
              * 
              */
+            this.init=function () {
+                this.chartDiv=document.createElement("div");
+                this.chartDiv.setAttribute("id", this.chartDivID);
+                this.chart=new google.visualization.CandlestickChart(this.chartDiv);
+            }
+            //TODO:Separate drawing movingAverage from this function
             this.drawChart=function(){
-                setDisplayData(combineAll(arrayData, length))
-                var displayedArray=objectToArray(this.displayedArray);
-                var data = google.visualization.arrayToDataTable(this.displayedArray, true);
+                this.setDisplayData(combineAll(arrayData, length))
+                var toDisplay=objectToArray(this.displayedArray);
+                var data = google.visualization.arrayToDataTable(toDisplay, true);
                 var view = new google.visualization.DataView(data);
                 view.setColumns([0, 1, 2, 3, 4, movingAverage]); //this is for the moving average value
                 chart.draw(view, options);
             }
 
-            this.getData= function(firstTime=false, beginning=0, end="now") {
+           
+            
+            this.parseSetData= function (httpResponse) {
+                var stockData=JSON.parse(httpResponse);
+                var tempData=[];
+                for(var i=stockData.length-duration;i<stockData.length;i++){
+                    //BROKE!!! TODO: Add combineAll to make it 1min, 2min, 5min etc.
+                    tempData.push(stockData[i]);
+                }
+                    
+                var isFirstTime= (this.arrayData==[]);
+                this.setData(tempData);
+                if(isFirstTime) this.drawChart;
+
+                    delete tempData;
+            }
+             this.getData= function(callback=null, firstTime=false, beginning=0, end="now") {
                 //sets up url from class variables
                 var url="http://104.198.38.190/stocks/"
                     +this.ticker+"/"+this.beginning+"-"
                     +this.end;
 
-                httpGetAsync(url, parseSetData);
+                httpGetAsync(url, (response)=>{
+                    this.parseSetData(response);
+                    if(callback!=null) callback();
+                } );
 
-            }
-            
-            this.parseSetData= function (httpResponse) {
-                var stockData=JSON.parse(httpResponse);
-                    var tempData=[];
-                    for(var i=stockData.length-duration;i<stockData.length;i++){
-                        //BROKE!!! TODO: Add combineAll to make it 1min, 2min, 5min etc.
-                        tempData.push(stockData[i]);
-                    }
-                     
-                    var isFirstTime= (this.arrayData==[]);
-                    setData(tempData);
-                    if(isFirstTime) this.drawChart;
-
-                     delete tempData;
             }
             /**
              * Getters and setters for important variables

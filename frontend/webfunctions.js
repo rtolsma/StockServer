@@ -76,9 +76,3 @@ function combineAll(data, minutes){
     }
     return result;
 }
-
-function init() {
-    google.charts.load('current', {'packages': ['corechart']});//loads all of the functions required by the charts
-    google.charts.setOnLoadCallback(drawChart);
-
-}
