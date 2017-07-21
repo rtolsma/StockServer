@@ -86,8 +86,9 @@ function Graph(arrayData,chartDivID, ticker, duration, length){
             function init() {
                 this.chartDiv=document.createElement("div");
                 this.chartDiv.setAttribute("id", this.chartDivID);
-                this.chartDiv.setAttribute("style", "width:1000");
-                this.chartDiv.setAttribute("style", "height:300");
+                //this.chartDiv.setAttribute("style", "width:1000px; height:300px");
+                this.chartDiv.style.height="300px";
+                this.chartDiv.style.width="1000px";
                 document.body.appendChild(this.chartDiv);
                 this.chart=new google.visualization.CandlestickChart(this.chartDiv);
             }
