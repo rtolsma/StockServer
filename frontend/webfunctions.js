@@ -28,6 +28,7 @@ function calculateMovingAverage(dt,row) {
 
 function objectToArray(object){
     var array=[];
+    if(object==null) return [[]];
     for(var i=0;i<object.length;i++){
         array.push([new Date(object[i].time),object[i].low,object[i].open,object[i].close,object[i].high]);
     }
@@ -67,6 +68,7 @@ function combine(candles){
   */
 function combineAll(data, minutes){
     var result=[];
+    if(data==null) return data;//if there's no data then don't do anything
     for(var i=0; i<data.length-minutes; i+=minutes) {
         var tempCandles=[];
         for(var j=i; j<i+minutes; j++) {
