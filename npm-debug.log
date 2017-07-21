@@ -7,7 +7,7 @@
 6 silly lifecycle Ziggurat-Internship@1.0.0~prestart: no script for prestart, continuing
 7 info lifecycle Ziggurat-Internship@1.0.0~start: Ziggurat-Internship@1.0.0
 8 verbose lifecycle Ziggurat-Internship@1.0.0~start: unsafe-perm in lifecycle true
-9 verbose lifecycle Ziggurat-Internship@1.0.0~start: PATH: /usr/lib/node_modules/npm/bin/node-gyp-bin:/home/ryan/Desktop/Ziggurat/Ziggurat-Internship/node_modules/.bin:/home/ryan/Downloads/google-cloud-sdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+9 verbose lifecycle Ziggurat-Internship@1.0.0~start: PATH: /usr/lib/node_modules/npm/bin/node-gyp-bin:/home/ryan/Desktop/Ziggurat/Ziggurat-Internship/node_modules/.bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
 10 verbose lifecycle Ziggurat-Internship@1.0.0~start: CWD: /home/ryan/Desktop/Ziggurat/Ziggurat-Internship
 11 silly lifecycle Ziggurat-Internship@1.0.0~start: Args: [ '-c', 'node main.js' ]
 12 silly lifecycle Ziggurat-Internship@1.0.0~start: Returned: code: 1  signal: null

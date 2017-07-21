@@ -11,12 +11,12 @@ var movingAverage={
 var graphs=[];
 graphs.push(new Graph([], "bananas", "AAPL", 60, 2));
 
-
 function drawChart() {
 
     graphs.forEach((graph) =>{
-        graph.getData();
-        graph.drawChart();
+        graph.init();
+        graph.getData(graph.drawChart);
+        //graph.drawChart();
     });
 
     setInterval(()=>updateGraphs(graphs), 5*1000);
@@ -27,6 +27,14 @@ function drawChart() {
         , callback: drawChart
     }); */
 }
+
+//BUG TESTING
+ google.charts.load('current', {'packages': ['corechart']});//loads all of the functions required by the charts
+ //google.load("visualization", "1", {packages:["corechart"]});
+ google.charts.setOnLoadCallback(drawChart);//testing
+
+
+
 
 function drawGraphs(graphs) {
     graphs.forEach((graph)=> graph.drawChart());

@@ -3,124 +3,14 @@
 
 <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript" src="./globalvar.js"></script>
-    <script type="text/javascript" src="./graph.js"></script>
-    <script type="text/javascript" src="./webfunctions.js"></script>
-<<<<<<< HEAD
-
-    <script type="text/javascript">        
-       
-        var twoHR=[];
-        function getNewData(minutes){
-            newData=[];
-            min=minutes;
-=======
-    <script type="text/javascript">
-        var days = 5;
-        var movingAverage = {
-            type: 'number'
-            , label: days + '-minute Moving Average'
-            , calc: calculateMovingAverage
-        }
-        google.charts.load('current', {
-            'packages': ['corechart']
-        }); //loads all of the functions required by the charts
-        var graph = new Graph(displayedData, 'chart_div');
-        google.charts.setOnLoadCallback(drawChart);
-
-        function drawChart() {
-            //httpGetAsync("http://104.198.38.190/stocks/dis/0-now",setData);
-            chart = new google.visualization.CandlestickChart(document.getElementById(graph.chartDivID));
-            //init
-            httpGetAsync("http://104.198.38.190/stocks/dis/0-now", (response) => {
-                    setData(response);
-                    drawData();
-                })
-                //the interval crap
-            setInterval(() => httpGetAsync("http://104.198.38.190/stocks/dis/0-now", setData), 15 * 1000); //change the url
-            setInterval(() => drawData(), 10 * 1000);
-            // drawChart();//draws chart the first time
-            function drawData() {
-                var displayedArray = objectToArray(displayedData);
-                var data = google.visualization.arrayToDataTable(displayedArray, true);
-                var view = new google.visualization.DataView(data);
-                console.log(displayedArray, "display");
-                view.setColumns([0, 1, 2, 3, 4, movingAverage]);
-                chart.draw(view, options);
-            }
-        }
-        var twoHR = [];
-
-        function getNewData(minutes) {
-            newData = [];
-            min = minutes;
->>>>>>> Materialize
-            combineAll();
-
-            function combineAll() {
-                var placeHolder = [];
-                var place = [];
-                for (var i = 0; i < stockData.length; i++) {
-                    if (i % 2 == 0) {
-                        var date = new Date(stockData[i].time);
-                        place.push([date, stockData[i].low, stockData[i].open, stockData[i].close, stockData[i].high]);
-                        date = new Date(stockData[i + 1].time);
-                        place.push([date, stockData[i + 1].low, stockData[i + 1].open, stockData[i + 1].close, stockData[i + 1].high]);
-                        placeHolder = combine(place);
-                        console.log(placeHolder, "place");
-                        twoHR.push(placeHolder);
-                        place = [];
-                    }
-                }
-                for (var i = 0; i < 50; i++) {
-                    newData.push(twoHR[i]);
-                }
-            }
-<<<<<<< HEAD
-        }
-    </script>
-    <script type="text/javascript" src="./httpfunctions.js"></script>
-    <script type="text/javascript" src="./drawing.js"></script>
-    <script type="text/javascript" src="./frontmain.js"></script>
-=======
->>>>>>> Materialize
-
-            function combine(candles) {
-                var time = candles[0].time;
-                var close = 0;
-                var open = 0;
-                var high = 0;
-                var low = Infinity;
-                var volume = 0;
-                if (candles.length > 0) {
-                    open = candles[0].open;
-                    close = candles[candles.length - 1].close;
-                    for (var i = 0; i < candles.length; i++) {
-                        if (candles[i].high > high) {
-                            high = candles[i].high;
-                        }
-                        if (candles[i].low < low) {
-                            low = candles[i].low;
-                        }
-                    }
-                }
-                var date = new Date(time);
-                return {
-                    "time": date
-                    , "low": low
-                    , "open": open
-                    , "close": close
-                    , "high": high
-                };
-            }
-        } < script type = "text/javascript"
-        src = "./frontend/globalvar.js" >
-    </script>
-    <script type="text/javascript" src="./frontend/graph.js"></script>
-    <script type="text/javascript" src="./frontend/webfunctions.js"></script>
-    <script type="text/javascript" src="./frontend/httpfunctions.js"></script>
-    <script type="text/javascript" src="./frontend/drawing.js"></script>
+    <script type="text/javascript" src="./frontend/globalvar.js"></script> 
     <script type="text/javascript" src="./frontend/frontmain.js"></script>
+    <script defer type="text/javascript" src="./frontend/httpfunctions.js"></script>       
+    <script defer type="text/javascript" src="./frontend/webfunctions.js"></script>
+    <script defer type="text/javascript" src="./frontend/graph.js"></script>
+    <script defer type="text/javascript" src="./frontend/drawing.js"></script>
+
+
 </head>
 
 <body>
