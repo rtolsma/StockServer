@@ -48,13 +48,13 @@ function Graph(arrayData,chartDivID, ticker, duration, length){
              * 
              * 
              */
-            this.init=function () {
+            function init() {
                 this.chartDiv=document.createElement("div");
                 this.chartDiv.setAttribute("id", this.chartDivID);
                 this.chart=new google.visualization.CandlestickChart(this.chartDiv);
             }
             //TODO:Separate drawing movingAverage from this function
-            this.drawChart=function(){
+            function drawChart(){
                 this.setDisplayData(combineAll(arrayData, length))
                 var toDisplay=objectToArray(this.displayedArray);
                 var data = google.visualization.arrayToDataTable(toDisplay, true);
@@ -65,7 +65,7 @@ function Graph(arrayData,chartDivID, ticker, duration, length){
 
            
             
-            this.parseSetData= function (httpResponse) {
+            function parseSetData(httpResponse) {
                 var stockData=JSON.parse(httpResponse);
                 var tempData=[];
                 for(var i=stockData.length-duration;i<stockData.length;i++){
@@ -79,11 +79,11 @@ function Graph(arrayData,chartDivID, ticker, duration, length){
 
                     delete tempData;
             }
-             this.getData= function(callback=null, firstTime=false, beginning=0, end="now") {
+             function getData(callback=null, firstTime=false, beginning=0, end="now") {
                 //sets up url from class variables
                 var url="http://104.198.38.190/stocks/"
-                    +this.ticker+"/"+this.beginning+"-"
-                    +this.end;
+                    +this.ticker+"/"+beginning+"-"
+                    +end;
 
                 httpGetAsync(url, (response)=>{
                     this.parseSetData(response);
@@ -96,17 +96,17 @@ function Graph(arrayData,chartDivID, ticker, duration, length){
              * 
              * 
              */
-            this.setData=function(candlesticks){
+            function setData(candlesticks){
                 this.arrayData=candlesticks;
             }
-            this.setDisplayData=function(displayData) {
+            function setDisplayData(displayData) {
                 this.displayedData=displayData;
             }
-            this.setDuration=function(dur) {
+           function setDuration(dur) {
                 this.duration=dur;
             }
             
-            this.setLength=function(len) {
+            function setLength(len) {
                 this.length=len;
             }
 
