@@ -38,6 +38,28 @@ function Graph(arrayData,chartDivID, ticker, duration, length){
             this.chartDiv; 
             this.chartDivID=chartDivID;
             
+
+
+
+              /**
+             * Getters and setters for important variables
+             * 
+             * 
+             */
+            this.setData=function(candlesticks){
+                this.arrayData=candlesticks;
+            }
+            this.setDisplayData=function(displayData) {
+                this.displayedData=displayData;
+            }
+           this.setDuration=function(dur) {
+                this.duration=dur;
+            }
+            
+            this.setLength=function(len) {
+                this.length=len;
+            }
+
             /**
              * Class Functions:
              * 
@@ -48,14 +70,15 @@ function Graph(arrayData,chartDivID, ticker, duration, length){
              * 
              * 
              */
-            function init() {
+            this.init=function() {
                 this.chartDiv=document.createElement("div");
                 this.chartDiv.setAttribute("id", this.chartDivID);
+                document.body.appendChild(this.chartDiv);
                 this.chart=new google.visualization.CandlestickChart(this.chartDiv);
             }
             //TODO:Separate drawing movingAverage from this function
-            function drawChart(){
-                this.setDisplayData(combineAll(arrayData, length))
+            this.drawChart=function (){
+                this.setDisplayData(combineAll(this.arrayData, length))
                 var toDisplay=objectToArray(this.displayedArray);
                 var data = google.visualization.arrayToDataTable(toDisplay, true);
                 var view = new google.visualization.DataView(data);
@@ -65,10 +88,10 @@ function Graph(arrayData,chartDivID, ticker, duration, length){
 
            
             
-            function parseSetData(httpResponse) {
+            this.parseSetData=function(httpResponse) {
                 var stockData=JSON.parse(httpResponse);
                 var tempData=[];
-                for(var i=stockData.length-duration;i<stockData.length;i++){
+                for(var i=stockData.length-this.duration;i<stockData.length;i++){
                     //BROKE!!! TODO: Add combineAll to make it 1min, 2min, 5min etc.
                     tempData.push(stockData[i]);
                 }
@@ -79,7 +102,8 @@ function Graph(arrayData,chartDivID, ticker, duration, length){
 
                     delete tempData;
             }
-             function getData(callback=null, firstTime=false, beginning=0, end="now") {
+           
+            this.getData=function(callback=null, firstTime=false, beginning=0, end="now") {
                 //sets up url from class variables
                 var url="http://104.198.38.190/stocks/"
                     +this.ticker+"/"+beginning+"-"
@@ -91,24 +115,7 @@ function Graph(arrayData,chartDivID, ticker, duration, length){
                 } );
 
             }
-            /**
-             * Getters and setters for important variables
-             * 
-             * 
-             */
-            function setData(candlesticks){
-                this.arrayData=candlesticks;
-            }
-            function setDisplayData(displayData) {
-                this.displayedData=displayData;
-            }
-           function setDuration(dur) {
-                this.duration=dur;
-            }
-            
-            function setLength(len) {
-                this.length=len;
-            }
+          
 
 
         }
